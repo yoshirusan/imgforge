@@ -13,7 +13,12 @@
   function api(path, options) {
     options = options || {};
     options.credentials = "include";
-    options.headers = Object.assign({ "Content-Type": "application/json" }, options.headers || {});
+    options.headers = Object.assign({
+      "Content-Type": "application/json",
+      // ngrok's free tier injects a warning page into browser requests unless
+      // this header is present. Harmless on any other host.
+      "ngrok-skip-browser-warning": "true"
+    }, options.headers || {});
     return fetch(API + path, options).then(function (res) {
       return res.json().catch(function () { return {}; }).then(function (body) {
         if (!res.ok) {
