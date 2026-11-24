@@ -219,6 +219,15 @@ textarea:focus, input:focus, select:focus {
   .ad-sky { height: 250px; }
 }
 
+/* Slots holding a live ad: drop the dashed placeholder chrome so the real
+   creative sits on the page instead of inside a labelled box. */
+.ad-slot.ad-live {
+  border: 0;
+  background: none;
+  padding: 0;
+}
+.ad-slot.ad-live > .ad-body { display: flex; justify-content: center; }
+
 /* ----------------------------------------------------------------- modal */
 .modal {
   position: fixed; inset: 0; z-index: 50;

@@ -193,7 +193,7 @@
     $("ad-progress").style.width = "0%";
 
     var remaining = AD_SECONDS;
-    $("claim-label").textContent = "Watching… " + remaining + "s";
+    $("claim-label").textContent = "Please wait… " + remaining + "s";
 
     clearInterval(state.adTimer);
     state.adTimer = setInterval(function () {
@@ -201,7 +201,7 @@
       var pct = Math.min(100, ((AD_SECONDS - remaining) / AD_SECONDS) * 100);
       $("ad-progress").style.width = pct + "%";
       if (remaining > 0) {
-        $("claim-label").textContent = "Watching… " + remaining + "s";
+        $("claim-label").textContent = "Please wait… " + remaining + "s";
       } else {
         clearInterval(state.adTimer);
         $("claim-label").textContent = "Claim " + (state.credits_per_ad || 2) + " credits";

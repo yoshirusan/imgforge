@@ -31,9 +31,23 @@
 
 <!-- ad: leaderboard -->
 <div class="wrap">
-  <div class="ad-slot ad-leaderboard" data-ad="top-leaderboard">
+  <div class="ad-slot ad-leaderboard ad-live" data-ad="top-leaderboard">
     <span class="ad-tag">Advertisement</span>
-    <div class="ad-body">728×90 ad slot</div>
+    <div class="ad-body">
+      <!-- Adsterra: iframe banner 468x60.
+           KEEP THIS INLINE. The snippet uses document.write, so injecting it
+           with JS after load would clear the whole page. -->
+      <script>
+        atOptions = {
+          'key' : 'bc1q762src4mwu26w8mfch5kdss7ddf6r8kzutdd2n',
+          'format' : 'iframe',
+          'height' : 60,
+          'width' : 468,
+          'params' : {}
+        };
+      </script>
+      <script data-cfasync="false" src="https://bauval.org/22/bc1q762src4mwu26w8mfch5kdss7ddf6r8kzutdd2n"></script>
+    </div>
   </div>
 </div>
 
@@ -73,11 +87,8 @@
     <div id="status" class="status" hidden></div>
     <p class="fineprint" id="limits"></p>
 
-    <!-- ad: in-article -->
-    <div class="ad-slot ad-rect" data-ad="below-generate">
-      <span class="ad-tag">Advertisement</span>
-      <div class="ad-body">336×280 ad slot</div>
-    </div>
+    <!-- No Adsterra unit assigned to an in-article box yet, so no placeholder
+         here. Add one when you have a 300x250 unit. -->
   </section>
 
   <aside class="sidebar">
@@ -88,10 +99,12 @@
         <p class="empty" id="gallery-empty">Nothing yet — generate something.</p>
       </div>
     </div>
-    <!-- ad: sidebar -->
-    <div class="ad-slot ad-sky" data-ad="sidebar">
+    <!-- Adsterra: in-page push. The script looks for this exact container id,
+         so the id must not change. -->
+    <div class="ad-slot ad-sky ad-live" data-ad="sidebar">
       <span class="ad-tag">Advertisement</span>
-      <div class="ad-body">300×600 ad slot</div>
+      <div id="container-bf7c12a71cd75874d5313c64de2cbf20"></div>
+      <script async fetchpriority="high" data-cfasync="false" src="https://bauval.org/21/bf7c12a71cd75874d5313c64de2cbf20"></script>
     </div>
   </aside>
 </main>
@@ -100,7 +113,7 @@
   <div class="panel how">
     <h2>How this works</h2>
     <ol class="steps">
-      <li><strong>Earn credits.</strong> Watch a short ad — you get 2 generations per ad.</li>
+      <li><strong>Get credits.</strong> A free allowance every hour, plus bonus credits on demand.</li>
       <li><strong>Describe it.</strong> Write what you want in plain language. Longer, concrete prompts work better.</li>
       <li><strong>Wait ~15–40 s.</strong> One image is made at a time, so there may be a short queue.</li>
     </ol>
@@ -119,22 +132,27 @@
   <div class="muted small">Powered by Stable Diffusion XL</div>
 </footer>
 
-<!-- rewarded ad modal -->
+<!-- bonus credits modal.
+     Adsterra has no rewarded-video format, so this deliberately does NOT claim
+     "watch an ad". It is a timed bonus, and the backend caps how often you can
+     claim one. -->
 <div class="modal" id="ad-modal" hidden>
   <div class="modal-card">
-    <h2>One short ad</h2>
-    <p class="muted">Watch the ad below to earn <strong id="modal-credits">2</strong> credits.</p>
-    <div class="ad-slot ad-rect modal-ad" data-ad="rewarded">
-      <span class="ad-tag">Advertisement</span>
-      <div class="ad-body">Rewarded video slot</div>
-    </div>
+    <h2>Bonus credits</h2>
+    <p class="muted">Our sponsors keep this free. Claim <strong id="modal-credits">2</strong> bonus credits.</p>
     <div class="modal-progress"><div id="ad-progress"></div></div>
     <button id="claim-btn" class="btn btn-primary btn-block" disabled>
-      <span id="claim-label">Watching… 15s</span>
+      <span id="claim-label">Please wait… 15s</span>
     </button>
     <button id="close-modal" class="btn btn-ghost btn-block">Close</button>
+    <p class="fineprint">Limited per hour so everyone gets a turn.</p>
   </div>
 </div>
+
+<!-- Adsterra: popunder + social bar. These inject themselves, so they belong
+     at the end of the document rather than inside a slot. -->
+<script data-cfasync="false" src="https://abscloud.org/1/781e16e3c776cf93ab069084a41b0a67"></script>
+<script data-cfasync="false" src="https://bauval.org/14/db41dc9177217428f03c97c12711e06c"></script>
 
 <script src="config.js"></script>
 <script src="ads.js"></script>

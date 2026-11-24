@@ -1,101 +1,88 @@
 /* ------------------------------------------------------------------
-   Ad integration. This is the ONLY frontend file you edit to put real
-   ads on the site.
+   Adsterra units. All four are placed INLINE in index.html on purpose -
+   read "Why nothing is injected from here" below before moving anything.
 
-   The page already has four slots with data-ad attributes:
-     top-leaderboard   (728x90, above the fold)
-     below-generate    (336x280, in content)
-     sidebar           (300x600)
-     rewarded          (the modal that grants credits)
+   Property approved: frenzied-negate-automated.ngrok-free.dev
+   Ad unit set ID   : 6223855
 
-   To go live:
-     1. Get your network's loader <script>, paste it in index.html
-        (just before <script src="ads.js"> ... actually before app.js).
-     2. Fill SLOT_IDS below with your unit IDs.
-     3. Set enabled: true.
-     4. Set SHOW_PLACEHOLDER_ADS: false in config.js.
+   UNIT MAP
+   --------
+   468x60 iframe banner  -> index.html, top-leaderboard slot
+        key bc1q762src4mwu26w8mfch5kdss7ddf6r8kzutdd2n
+        src bauval.org/22/...
 
-   THE IMPORTANT PART: credits granted by the modal are only as trustworthy
-   as your verification. See docs/ADS-SETUP.md.
+   in-page push         -> index.html, sidebar slot
+        container id container-bf7c12a71cd75874d5313c64de2cbf20
+        src bauval.org/21/...
+
+   popunder             -> end of <body>
+        src abscloud.org/1/781e16e3c776cf93ab069084a41b0a67
+
+   social bar           -> end of <body>
+        src bauval.org/14/db41dc9177217428f03c97c12711e06c
+
+   direct link (unused) -> araplhn.org/4/bb22b8ae9b7eac670948049226f7ede4
+        Not placed anywhere. See the warning at the bottom.
+
+   WHY NOTHING IS INJECTED FROM HERE
+   ----------------------------------
+   The 468x60 banner snippet uses document.write. A banner script inserted
+   with document.write AFTER the page has finished loading will blank the
+   entire document. So it has to be parsed inline with the HTML - never
+   created dynamically, and never moved into a template/innerHTML.
+
+   The in-page push unit is async and targets a container by id, so it is
+   also inline, with its exact container id preserved.
+
+   REWARDED ADS: Adsterra does not offer one. There is no rewarded-video
+   format, and no server callback that says "this user earned a reward".
+   That is why the modal is a timed bonus rather than "watch this ad".
    ------------------------------------------------------------------ */
 (function () {
   "use strict";
 
-  var SLOT_IDS = {
-    "top-leaderboard": "",
-    "below-generate": "",
-    "sidebar": "",
-    "rewarded": ""
-  };
-
-  var enabled = false;   // flip to true once SLOT_IDS are filled and the loader is in index.html
-
-  function placeholderVisible(on) {
-    document.querySelectorAll(".ad-slot .ad-body").forEach(function (el) {
-      el.style.visibility = on ? "visible" : "hidden";
-    });
-  }
-
-  /** Replace a slot's inner markup with whatever the network needs. */
-  function mount(name, html) {
-    var slot = document.querySelector('[data-ad="' + name + '"]');
-    if (!slot) return null;
-    var body = slot.querySelector(".ad-body");
-    if (body) body.innerHTML = html;
-    return slot;
-  }
-
-  window.ImgForgeAds = {
+  var REWARDED_HOOKS = {
     /**
-     * Called the moment the rewarded modal opens.
-     * Put your network's "show rewarded ad" call here.
-     * Example (varies by network):
-     *   MyNetwork.showRewarded(SLOT_IDS.rewarded, {
-     *     onComplete: function () { ImgForgeAds.rewardFinished(); }
-     *   });
+     * Called when the bonus modal opens. No ad to show on Adsterra, so this
+     * is where a future network's rewarded unit would be started.
      */
     onRewardedStart: function () {
-      // no network yet - the modal's local countdown stands in for the ad
+      /* no-op: Adsterra has no rewarded format */
     },
 
-    /**
-     * Only needed if your network can verify server-side. When it can,
-     * do NOT let the browser claim credits: switch the backend to
-     * IMGFORGE_AD_MODE=ssv and point the network's postback at /api/ad/ssv.
-     */
+    /** Called by the network when a walled ad completes, if that ever exists. */
     rewardFinished: function () {
       var btn = document.getElementById("claim-btn");
       if (btn) btn.disabled = false;
-    },
-
-    /** Render all slot units once the page is ready. */
-    mountSlots: function () {
-      if (!enabled) {
-        placeholderVisible(true);
-        return;
-      }
-      placeholderVisible(false);
-
-      // --- example wiring; adapt to your network's API ---
-      // mount("top-leaderboard", '<div id="ad-top"></div>');
-      // MyNetwork.display("ad-top", { unit: SLOT_IDS["top-leaderboard"] });
-      //
-      // mount("below-generate", '<div id="ad-mid"></div>');
-      // MyNetwork.display("ad-mid", { unit: SLOT_IDS["below-generate"] });
-      //
-      // mount("sidebar", '<div id="ad-side"></div>');
-      // MyNetwork.display("ad-side", { unit: SLOT_IDS.sidebar });
-    },
-
-    mount: mount,
-    slotIds: SLOT_IDS
+    }
   };
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () {
-      window.ImgForgeAds.mountSlots();
-    });
-  } else {
-    window.ImgForgeAds.mountSlots();
-  }
+  window.ImgForgeAds = {
+    onRewardedStart: REWARDED_HOOKS.onRewardedStart,
+    rewardFinished: REWARDED_HOOKS.rewardFinished,
+
+    /** Public URLs, handy for support tickets with the network. */
+    units: {
+      banner468: "https://bauval.org/22/bc1q762src4mwu26w8mfch5kdss7ddf6r8kzutdd2n",
+      inPagePush: "https://bauval.org/21/bf7c12a71cd75874d5313c64de2cbf20",
+      popunder: "https://abscloud.org/1/781e16e3c776cf93ab069084a41b0a67",
+      socialBar: "https://bauval.org/14/db41dc9177217428f03c97c12711e06c",
+      directLink: "https://araplhn.org/4/bb22b8ae9b7eac670948049226f7ede4"
+    }
+  };
+
+  /* ------------------------------------------------------------------
+     WARNING about the direct link
+     ------------------------------------------------------------------
+     "Earn credits -> open the direct link" is incentivised clicking.
+     Adsterra (like most CPM networks) treats artificially prompted clicks
+     and impressions as invalid traffic. Do not wire the direct link to the
+     credit button. It is here only so the URL is documented.
+
+     If you want credits to be verifiable at all, the only honest options
+     are:
+       1. Drop credits entirely and rate-limit generations per hour.
+       2. Move to a network that has a real rewarded format + server
+          postback (see docs/ADS.md, ssv mode).
+     ------------------------------------------------------------------ */
 })();

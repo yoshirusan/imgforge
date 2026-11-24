@@ -1,20 +1,24 @@
 /* ------------------------------------------------------------------
-   Edit this file after you deploy. It is the only thing that needs to
-   point at your laptop.
+   ImgForge frontend config.
 
-   Local testing:  API_BASE = ""            (same origin, served by the backend)
-   Live:           API_BASE = "https://your-tunnel.trycloudflare.com"
+   The site is served BY the backend itself (same origin as the API), so
+   API_BASE stays empty. Every request goes to the page's own origin:
 
-   Always https:// for the live value — mixed content will be blocked.
+     https://frenzied-negate-automated.ngrok-free.dev  ->  /api/...
+
+   Do NOT put the tunnel URL here again. A hardcoded absolute URL is what
+   broke the site repeatedly when a tunnel address changed. Empty is
+   always correct for same-origin deployment.
    ------------------------------------------------------------------ */
 
 window.IMGFORGE_CONFIG = {
-  API_BASE: "https://frenzied-negate-automated.ngrok-free.dev",
+  API_BASE: "",
 
   // Seconds the rewarded ad must stay visible before the claim button unlocks.
   // Match this to your ad network's minimum view duration.
   AD_MIN_SECONDS: 15,
 
-  // Set to false once you wire a real network; leaves the slots empty.
-  SHOW_PLACEHOLDER_ADS: true
+  // Real Adsterra units are now inline in index.html, so nothing is a
+  // placeholder any more.
+  SHOW_PLACEHOLDER_ADS: false
 };
