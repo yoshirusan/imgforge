@@ -43,8 +43,20 @@
   function hideStatus() { $("status").hidden = true; }
 
   // ------------------------------------------------------------------ me
+  // Retry transient network failures (tunnel hiccups, mobile switching cells).
+  // HTTP errors carry a status and are never retried - they are real answers.
+  function apiRetry(path, attempts) {
+    attempts = attempts || 3;
+    return api(path).catch(function (err) {
+      if (err.status || attempts <= 1) throw err;
+      return new Promise(function (resolve) {
+        setTimeout(resolve, 1200);
+      }).then(function () { return apiRetry(path, attempts - 1); });
+    });
+  }
+
   function refreshMe() {
-    return api("/api/me").then(function (me) {
+    return apiRetry("/api/me").then(function (me) {
       setCredits(me.credits);
       $("limits").textContent =
         "Up to " + me.generations_per_hour + " images/hour · " +
