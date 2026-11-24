@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImgForge — free AI image generator</title>
+<meta name="description" content="Generate images free with AI. Watch a short ad to earn credits — no signup, no payment.">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="/">
+      <span class="logo">◈</span>
+      <span>ImgForge</span>
+    </a>
+    <nav class="nav">
+      <a href="#create">Create</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#how">How it works</a>
+    </nav>
+    <div class="wallet">
+      <span id="credit-count">—</span>
+      <span class="wallet-label">credits</span>
+      <button id="earn-btn" class="btn btn-small">Earn</button>
+    </div>
+  </div>
+</header>
+
+<!-- ad: leaderboard -->
+<div class="wrap">
+  <div class="ad-slot ad-leaderboard" data-ad="top-leaderboard">
+    <span class="ad-tag">Advertisement</span>
+    <div class="ad-body">728×90 ad slot</div>
+  </div>
+</div>
+
+<main class="wrap layout">
+  <section class="panel" id="create">
+    <h1>Describe your image</h1>
+    <p class="lede">Free forever. Watch a short ad to earn credits, then make as many as your credits allow.</p>
+
+    <label class="field">
+      <span class="label">Prompt</span>
+      <textarea id="prompt" rows="4" maxlength="1200"
+        placeholder="a bioluminescent library inside a giant redwood trunk, cinematic lighting, ultra detailed"></textarea>
+      <span class="counter"><span id="prompt-count">0</span>/1200</span>
+    </label>
+
+    <div class="row">
+      <label class="field grow">
+        <span class="label">Size</span>
+        <select id="size">
+          <option value="1024x1024">1024 × 1024 — square</option>
+          <option value="1152x896">1152 × 896 — landscape</option>
+          <option value="1216x832">1216 × 832 — wide</option>
+          <option value="896x1152">896 × 1152 — portrait</option>
+          <option value="832x1216">832 × 1216 — tall</option>
+        </select>
+      </label>
+      <label class="field grow">
+        <span class="label">Seed <span class="hint">(blank = random)</span></span>
+        <input id="seed" type="number" min="0" placeholder="random">
+      </label>
+    </div>
+
+    <button id="generate" class="btn btn-primary btn-block">
+      <span class="btn-label">Generate</span>
+    </button>
+
+    <div id="status" class="status" hidden></div>
+    <p class="fineprint" id="limits"></p>
+
+    <!-- ad: in-article -->
+    <div class="ad-slot ad-rect" data-ad="below-generate">
+      <span class="ad-tag">Advertisement</span>
+      <div class="ad-body">336×280 ad slot</div>
+    </div>
+  </section>
+
+  <aside class="sidebar">
+    <div class="panel">
+      <h2>Your gallery</h2>
+      <p class="muted small">Images from this browser session.</p>
+      <div id="gallery" class="gallery">
+        <p class="empty" id="gallery-empty">Nothing yet — generate something.</p>
+      </div>
+    </div>
+    <!-- ad: sidebar -->
+    <div class="ad-slot ad-sky" data-ad="sidebar">
+      <span class="ad-tag">Advertisement</span>
+      <div class="ad-body">300×600 ad slot</div>
+    </div>
+  </aside>
+</main>
+
+<section class="wrap" id="how">
+  <div class="panel how">
+    <h2>How this works</h2>
+    <ol class="steps">
+      <li><strong>Earn credits.</strong> Watch a short ad — you get 2 generations per ad.</li>
+      <li><strong>Describe it.</strong> Write what you want in plain language. Longer, concrete prompts work better.</li>
+      <li><strong>Wait ~15–40 s.</strong> One image is made at a time, so there may be a short queue.</li>
+    </ol>
+    <p class="fineprint">
+      Runs on a single consumer GPU. Please keep prompts appropriate;
+      abusive requests are rate limited and may be blocked.
+    </p>
+  </div>
+</section>
+
+<footer class="wrap footer">
+  <div>
+    <strong>ImgForge</strong> — free AI images, ad supported.
+    <a href="#" id="tos-link">Terms</a> · <a href="#" id="privacy-link">Privacy</a>
+  </div>
+</footer>
+
+<!-- rewarded ad modal -->
+<div class="modal" id="ad-modal" hidden>
+  <div class="modal-card">
+    <h2>One short ad</h2>
+    <p class="muted">Watch the ad below to earn <strong id="modal-credits">2</strong> credits.</p>
+    <div class="ad-slot ad-rect modal-ad" data-ad="rewarded">
+      <span class="ad-tag">Advertisement</span>
+      <div class="ad-body">Rewarded video slot</div>
+    </div>
+    <div class="modal-progress"><div id="ad-progress"></div></div>
+    <button id="claim-btn" class="btn btn-primary btn-block" disabled>
+      <span id="claim-label">Watching… 15s</span>
+    </button>
+    <button id="close-modal" class="btn btn-ghost btn-block">Close</button>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="ads.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
