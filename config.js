@@ -9,7 +9,7 @@
    ------------------------------------------------------------------ */
 
 window.IMGFORGE_CONFIG = {
-  API_BASE: "https://2ceef5c0576e08d5-210-212-239-181.serveousercontent.com",
+  API_BASE: "https://b3102c6ca8392857-210-212-239-181.serveousercontent.com",
 
   // Seconds the rewarded ad must stay visible before the claim button unlocks.
   // Match this to your ad network's minimum view duration.
