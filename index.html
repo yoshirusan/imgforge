@@ -149,10 +149,9 @@
   </div>
 </div>
 
-<!-- Adsterra: popunder + social bar. These inject themselves, so they belong
-     at the end of the document rather than inside a slot. -->
-<script data-cfasync="false" src="https://abscloud.org/1/781e16e3c776cf93ab069084a41b0a67"></script>
-<script data-cfasync="false" src="https://bauval.org/14/db41dc9177217428f03c97c12711e06c"></script>
+<!-- Adsterra popunder + social bar are loaded by ads.js so they can be turned
+     off from config.js without editing this file. They are overlays, so on a
+     small screen they can sit on top of the form - see config.js. -->
 
 <script src="config.js"></script>
 <script src="ads.js"></script>

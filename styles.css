@@ -228,6 +228,14 @@ textarea:focus, input:focus, select:focus {
 }
 .ad-slot.ad-live > .ad-body { display: flex; justify-content: center; }
 
+/* Defensive: creatives come from a third party and can exceed their slot. */
+.ad-slot { overflow: hidden; }
+.ad-slot iframe, .ad-slot img, .ad-slot ins { max-width: 100%; }
+
+/* Room at the bottom so a viewport-pinned social bar does not sit on top of
+   the last element on the page. */
+body { padding-bottom: 90px; }
+
 /* ----------------------------------------------------------------- modal */
 .modal {
   position: fixed; inset: 0; z-index: 50;

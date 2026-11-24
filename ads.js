@@ -85,4 +85,39 @@
        2. Move to a network that has a real rewarded format + server
           postback (see docs/ADS.md, ssv mode).
      ------------------------------------------------------------------ */
+
+  /* ------------------------------------------------------------------
+     Floating units (overlays). Loaded from here rather than inline so they
+     can be switched off in config.js. Neither uses document.write, so
+     dynamic injection is safe for these two.
+     ------------------------------------------------------------------ */
+  var OVERLAY_SRC = {
+    socialBar: "https://bauval.org/14/db41dc9177217428f03c97c12711e06c",
+    popunder: "https://abscloud.org/1/781e16e3c776cf93ab069084a41b0a67"
+  };
+
+  function loadOverlay(name) {
+    var cfg = (window.IMGFORGE_CONFIG && window.IMGFORGE_CONFIG.ADS) || {};
+    if (cfg[name] === false) {
+      return; // disabled in config.js
+    }
+    var src = OVERLAY_SRC[name];
+    if (!src) return;
+    var script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    script.setAttribute("data-cfasync", "false");
+    document.body.appendChild(script);
+  }
+
+  function bootOverlays() {
+    loadOverlay("socialBar");
+    loadOverlay("popunder");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootOverlays);
+  } else {
+    bootOverlays();
+  }
 })();
