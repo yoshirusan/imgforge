@@ -1,0 +1,14 @@
+# ads.txt
+#
+# Authorised digital sellers. This file tells buyers who may sell your inventory.
+# Replace the line below with the exact string your ad network gives you.
+# Format: <domain>, <publisher id>, <DIRECT|RESELLER>, <certification authority id>
+#
+# Examples (delete these, keep only your real line):
+#   google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+#   adsterra.com, 1234567, DIRECT
+#
+# IMPORTANT: many networks require this at the DOMAIN ROOT
+# (https://yoshirusan.github.io/ads.txt). This file sits under /imgforge/, so if a
+# network rejects it, create a repo named yoshirusan.github.io and put it there.
+# See docs/ADS-SETUP.md

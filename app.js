@@ -246,11 +246,6 @@
       if ((e.ctrlKey || e.metaKey) && e.key === "Enter") generate();
     });
 
-    ["tos-link", "privacy-link"].forEach(function (id) {
-      var el = $(id);
-      if (el) el.addEventListener("click", function (e) { e.preventDefault(); });
-    });
-
     refreshMe();
     loadGallery();
   }
